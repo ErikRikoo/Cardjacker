@@ -1,0 +1,9 @@
+[submodule "Packages/com.rikoo.framework.core"]
+	path = Packages/com.rikoo.framework.core
+	url = https://github.com/ErikRikoo/rikoo-unity-core.git
+[submodule "Packages/com.rikoo.framework.utilities"]
+	path = Packages/com.rikoo.framework.utilities
+	url = https://github.com/ErikRikoo/rikoo-unity-utilities.git
+[submodule "Packages/com.rikoo.geometry-nodes"]
+	path = Packages/com.rikoo.geometry-nodes
+	url = https://github.com/ErikRikoo/Unity-Geometry-Nodes.git

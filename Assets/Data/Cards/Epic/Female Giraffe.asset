@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Female Giraffe
   cardType: 1
-  cardValue: 90
+  cardValue: 85
   cardImage: {fileID: 0}
   cardIndex: 0

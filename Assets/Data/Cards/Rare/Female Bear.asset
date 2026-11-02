@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Female Bear
   cardType: 2
-  cardValue: 80
+  cardValue: 62
   cardImage: {fileID: 0}
   cardIndex: 0

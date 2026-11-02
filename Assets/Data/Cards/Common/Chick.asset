@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Chick
   cardType: 3
-  cardValue: 70
+  cardValue: 16
   cardImage: {fileID: 0}
   cardIndex: 0

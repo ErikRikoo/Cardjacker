@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Female Octopus
   cardType: 1
-  cardValue: 90
+  cardValue: 82
   cardImage: {fileID: 0}
   cardIndex: 0

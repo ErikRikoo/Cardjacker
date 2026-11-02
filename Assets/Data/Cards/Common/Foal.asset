@@ -12,8 +12,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3cdc5834e18a368408fb3359ead59f48, type: 3}
   m_Name: Foal
   m_EditorClassIdentifier: Assembly-CSharp::CardData
-  cardName: Male Zebra
+  cardName: Foal
   cardType: 3
-  cardValue: 70
+  cardValue: 24
   cardImage: {fileID: 0}
   cardIndex: 0

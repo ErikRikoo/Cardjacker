@@ -14,6 +14,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::CardData
   cardName: Male Crocodile
   cardType: 2
-  cardValue: 80
+  cardValue: 68
   cardImage: {fileID: 0}
   cardIndex: 0

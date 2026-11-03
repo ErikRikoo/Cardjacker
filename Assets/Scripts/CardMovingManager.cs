@@ -1,6 +1,5 @@
 using UnityEngine;
 using UnityEngine.InputSystem;
-using UnityEngine.Rendering;
 
 public class CardMovingManager : MonoBehaviour
 {
@@ -12,35 +11,68 @@ public class CardMovingManager : MonoBehaviour
         instance = this;
     }
 
-    public Card CardMoved = null;
+    public Card cardMoved = null;
+    public Card currentCardPlayed = null;
 
     private void Update()
     {
-        if (CardMoved != null)
+        if (cardMoved != null)
         {
-            CardMoved.GetComponent<RectTransform>().position = new Vector3(Mouse.current.position.x.value, Mouse.current.position.y.value, 0);
+            cardMoved.GetComponent<RectTransform>().position = new Vector3(Mouse.current.position.x.value, Mouse.current.position.y.value, 0);
         }
     }
 
     public void DropCard()
     {
-        if (CardMoved == null)
+        if (cardMoved == null)
         {
             return;
         }
 
-        if (MouseInside(BuyUI.instance.buyingCardsPanel))
+        switch(BuyUI.instance.currentPhase)
         {
-            CardMoved.transform.parent = BuyUI.instance.buyingCardsPanel;
-            BuyUI.instance.AddCardToGoal(CardMoved);
-        }
-        else
-        {
-            CardMoved.transform.parent = BuyUI.instance.buyerCardsPanel;
-            BuyUI.instance.RemoveCardToGoal(CardMoved);
+            case Phase.BUYER_SELECTION:
+                if (MouseInside(BuyUI.instance.buyingCardsPanel))
+                {
+                    cardMoved.transform.parent = BuyUI.instance.buyingCardsPanel;
+                    BuyUI.instance.AddCardToGoal(cardMoved);
+                }
+                else
+                {
+                    cardMoved.transform.parent = BuyUI.instance.buyerCardsPanel;
+                    BuyUI.instance.RemoveCardToGoal(cardMoved);
+                }
+                break;
+            case Phase.SCAMMING:
+                if (MouseInside(BuyUI.instance.scammingDropPanel))
+                {
+                    cardMoved.transform.parent = BuyUI.instance.scammingDropPanel;
+                    if (!cardMoved.isArgumentCard)
+                    {
+                        currentCardPlayed = cardMoved;
+                        BuyUI.instance.SwitchPlayerPanel();
+                    }
+                    else
+                    {
+                        cardMoved.GetComponent<Argument>().linkedCard = currentCardPlayed;
+                    }
+                    cardMoved.canBeMoved = false;
+                }
+                else
+                {
+                    if (!cardMoved.isArgumentCard)
+                    {
+                        cardMoved.transform.parent = BuyUI.instance.playerArgsPanel.transform;
+                    }
+                    else
+                    {
+                        cardMoved.transform.parent = BuyUI.instance.playerCardsPanel.transform;
+                    }
+                }
+                break;
         }
 
-        CardMoved = null;
+        cardMoved = null;
     }
 
     private bool MouseInside(RectTransform rectTransform)

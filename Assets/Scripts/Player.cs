@@ -1,25 +1,29 @@
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
 public class Player : MonoBehaviour
 {
+    public static Player instance;
+
     public float MovementSpeed = 10;
     public float LookAtSpeed = 2;
     public Transform model;
 
     public GameObject interactionGO;
 
-    public GameObject BuyGo;
-    private BuyUI buyUI;
-
     private Interaction currentInteraction = null;
 
-    public CardData[] cards;
+    public List<CardData> cards;
+
+    private void Awake()
+    {
+        instance = this;
+    }
 
     private void Start()
     {
-        buyUI = BuyGo.GetComponent<BuyUI>();
-        BuyGo.SetActive(false);
+        BuyUI.instance.gameObject.SetActive(false);
     }
 
     private void Update()
@@ -50,11 +54,11 @@ public class Player : MonoBehaviour
 
         transform.position += desiredMovement.normalized * Time.deltaTime * MovementSpeed;
 
-        if (keyboard.fKey.isPressed && currentInteraction != null && !BuyGo.activeSelf)
+        if (keyboard.fKey.isPressed && currentInteraction != null && !BuyUI.instance.gameObject.activeSelf)
         {
             currentInteraction.Execute();
-            BuyGo.SetActive(true);
-            buyUI.ShowBuyerCards((Buyer)currentInteraction);
+            BuyUI.instance.gameObject.SetActive(true);
+            BuyUI.instance.ShowBuyerCards((Buyer)currentInteraction);
         }
     }
 

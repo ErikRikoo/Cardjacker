@@ -1,14 +1,12 @@
+using System.Collections;
 using TMPro;
 using UnityEngine;
 using UnityEngine.EventSystems;
-using UnityEngine.InputSystem;
 using UnityEngine.UI;
 
 public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
 {
     public GameObject[] selectionRect;
-
-    public bool selected = false;
 
     public int value = 100;
 
@@ -17,6 +15,10 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public TextMeshProUGUI valueText;
     public TextMeshProUGUI nameText;
 
+    public CardData currentCardData;
+
+    public TextMeshProUGUI scoreText;
+
     public Image background;
 
     public Color commonColor;
@@ -24,84 +26,37 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public Color epicColor;
     public Color legendaryColor;
 
-    private void Start()
-    {
-    }
+    public bool isArgumentCard = false;
+
+    public bool canBeMoved = true;
 
     public void OnPointerDown(PointerEventData eventData)
     {
-        CardMovingManager.instance.CardMoved = this;
+        if (!canBeMoved)
+        {
+            return;
+        }
+
+        CardMovingManager.instance.cardMoved = this;
         transform.parent = transform.parent.parent;
-
-        /*if (!isPlayerCard)
-        {
-            if (selected)
-            {
-                FindAnyObjectByType<BuyUI>().AddScore(value);
-            }
-            else
-            {
-                FindAnyObjectByType<BuyUI>().AddScore(-value);
-            }
-        }
-        else
-        {
-            if (selected)
-            {
-                FindAnyObjectByType<BuyUI>().SelectPlayerCard(this);
-            }
-            else
-            {
-                FindAnyObjectByType<BuyUI>().SelectPlayerCard(null);
-            }
-        }
-
-        UpdateSelectionImages();*/
     }
 
     public void OnPointerUp(PointerEventData eventData)
     {
-        if (CardMovingManager.instance.CardMoved == this)
+        if (!canBeMoved)
+        {
+            return;
+        }
+
+        if (CardMovingManager.instance.cardMoved == this)
         {
             CardMovingManager.instance.DropCard();
-        }
-
-        /*if (!isPlayerCard)
-        {
-            if (selected)
-            {
-                FindAnyObjectByType<BuyUI>().AddScore(value);
-            }
-            else
-            {
-                FindAnyObjectByType<BuyUI>().AddScore(-value);
-            }
-        }
-        else
-        {
-            if (selected)
-            {
-                FindAnyObjectByType<BuyUI>().SelectPlayerCard(this);
-            }
-            else
-            {
-                FindAnyObjectByType<BuyUI>().SelectPlayerCard(null);
-            }
-        }
-
-        UpdateSelectionImages();*/
-    }
-
-    public void UpdateSelectionImages()
-    {
-        for (int i = 0; i < selectionRect.Length; i++)
-        {
-            selectionRect[i].SetActive(selected);
         }
     }
 
     public void SetInfo(CardData cardData)
     {
+        currentCardData = cardData;
         value = cardData.cardValue;
         valueText.text = "$" + value.ToString();
         nameText.text = cardData.cardName;
@@ -121,5 +76,23 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 background.color = legendaryColor;
                 break;
         }
+    }
+
+    public void Shake()
+    {
+        StartCoroutine(Shaking());
+    }
+
+    private IEnumerator Shaking()
+    {
+        float timer = 0;
+        while (timer < 0.5f)
+        {
+            transform.rotation = Quaternion.Euler(0, 0, Mathf.Cos(Time.time * 50) * 5);
+            timer += Time.deltaTime;
+            yield return null;
+        }
+
+        transform.rotation = Quaternion.identity;
     }
 }

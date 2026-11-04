@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ac4e589bccc79434891f0e62b76a2c66, type: 3}
+  m_Name: ArgumentMult2
+  m_EditorClassIdentifier: Assembly-CSharp::ArgumentData
+  argumentName: Mult 2
+  argumentDescription: Multiply by 2 the card value
+  argumentType: 1
+  argumentValue: 2
+  argumentImage: {fileID: 0}
+  argumentIndex: 0

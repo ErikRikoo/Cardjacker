@@ -54,7 +54,9 @@ public class CardMovingManager : MonoBehaviour
                     }
                     else
                     {
-                        cardMoved.GetComponent<Argument>().linkedCard = currentCardPlayed;
+                        Argument argument = cardMoved.GetComponent<Argument>();
+                        argument.linkedCard = currentCardPlayed;
+                        Player.instance.SetArgumentUsed(argument.index);
                     }
                     cardMoved.canBeMoved = false;
                 }

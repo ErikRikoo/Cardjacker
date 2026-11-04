@@ -31,6 +31,7 @@ public class BuyUI : MonoBehaviour
     public Transform buyerCardsPanel;
     public RectTransform buyingCardsPanel;
     public Card CardPrefab;
+    public Argument argumentPrefab;
 
     private List<Card> cards = new List<Card>();
 
@@ -94,6 +95,15 @@ public class BuyUI : MonoBehaviour
             Card c = Instantiate(CardPrefab, playerCardsPanel.transform).GetComponent<Card>();
             c.SetInfo(Player.instance.cards[i]);
         }
+        for (int i = 0; i < Player.instance.runtimeArguments.Count; i++)
+        {
+            if (!Player.instance.runtimeArguments[i].used)
+            {
+                Argument c = Instantiate(argumentPrefab, playerArgsPanel.transform).GetComponent<Argument>();
+                c.SetArgInfo(Player.instance.runtimeArguments[i].argumentData);
+                c.index = i;
+            }
+        }
     }
 
     private void Update()
@@ -109,7 +119,7 @@ public class BuyUI : MonoBehaviour
 
     public void ShowBuyerCards(Buyer buyer)
     {
-        for (int i = 0; i < buyer.cards.Length; i++)
+        for (int i = 0; i < buyer.cards.Count; i++)
         {
             Card c = Instantiate(CardPrefab, buyerCardsPanel).GetComponent<Card>();
             c.SetInfo(buyer.cards[i]);
@@ -204,9 +214,9 @@ public class BuyUI : MonoBehaviour
                         cBis.Shake();
 
                         Argument arg = cBis.GetComponent<Argument>();
-                        switch(arg.argType)
+                        switch(arg.currentArgumentData.argumentType)
                         {
-                            case ArgType.MULT:
+                            case ArgumentType.MULT:
                                 cBis.scoreText.text = "x" + arg.value;
 
                                 yield return waitForSecondsSmall;
@@ -245,11 +255,59 @@ public class BuyUI : MonoBehaviour
             for (int i = 0; i < max; i++)
             {
                 Player.instance.cards.Add(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
-
+            }
+            Buyer b = Player.instance.currentInteraction.GetComponent<Buyer>();
+            for (int i = 0; i < max; i++)
+            {
+                b.cards.Remove(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
             }
         }
         else
         {
+        }
+
+        for (int i = 0; i < buyerCardsPanel.childCount; i++)
+        {
+            Destroy(buyerCardsPanel.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < buyingCardsPanel.childCount; i++)
+        {
+            Destroy(buyingCardsPanel.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < scammingBuyerCardsPanel.childCount; i++)
+        {
+            Destroy(scammingBuyerCardsPanel.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < playerCardsPanel.transform.childCount; i++)
+        {
+            Destroy(playerCardsPanel.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < playerArgsPanel.transform.childCount; i++)
+        {
+            Destroy(playerArgsPanel.transform.GetChild(i).gameObject);
+        }
+
+        for (int i = 0; i < scammingDropPanel.childCount; i++)
+        {
+            Destroy(scammingDropPanel.GetChild(i).gameObject);
+        }
+
+        score = 0;
+        scoreText.text = "Score : " + score;
+
+        goal = 0;
+        for (int i = 0; i < goalText.Length; i++)
+        {
+            goalText[i].text = "Goal : " + goal;
+        }
+
+        if (!showingPlayerCards)
+        {
+            SwitchPlayerPanel();
         }
 
         SwitchPhase(Phase.BUYER_SELECTION);

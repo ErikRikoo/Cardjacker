@@ -12,9 +12,12 @@ public class Player : MonoBehaviour
 
     public GameObject interactionGO;
 
-    private Interaction currentInteraction = null;
+    public Interaction currentInteraction = null;
 
-    public List<CardData> cards;
+    public List<CardData> cards = new List<CardData>();
+    public List<ArgumentData> startingArguments = new List<ArgumentData>();
+    private List<ArgumentData> arguments = new List<ArgumentData>();
+    public List<RuntimeArgumentData> runtimeArguments = new List<RuntimeArgumentData>();
 
     private void Awake()
     {
@@ -24,6 +27,11 @@ public class Player : MonoBehaviour
     private void Start()
     {
         BuyUI.instance.gameObject.SetActive(false);
+
+        for (int i = 0; i < startingArguments.Count; i++)
+        {
+            AddArgument(startingArguments[i]);
+        }
     }
 
     private void Update()
@@ -80,5 +88,18 @@ public class Player : MonoBehaviour
             currentInteraction = null;
             interactionGO.SetActive(false);
         }
+    }
+
+    public void AddArgument(ArgumentData inArgumentData)
+    {
+        arguments.Add(inArgumentData);
+        runtimeArguments.Add(new RuntimeArgumentData { argumentData = inArgumentData, used = false });
+    }
+
+    public void SetArgumentUsed(int index)
+    {
+        RuntimeArgumentData runtimeArgumentData = runtimeArguments[index];
+        runtimeArgumentData.used = true;
+        runtimeArguments[index] = runtimeArgumentData;
     }
 }

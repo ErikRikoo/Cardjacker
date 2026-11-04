@@ -10,6 +10,11 @@ public class CardData : ScriptableObject
     public int cardIndex;
 }
 
+public struct RuntimeCardData
+{
+    public CardData cardData;
+}
+
 public enum CardType
 {
     LEGENDARY,

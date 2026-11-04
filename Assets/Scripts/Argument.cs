@@ -1,27 +1,21 @@
 using TMPro;
-using UnityEngine;
 
-public enum ArgType
+public class Argument : Card
 {
-    ADD,
-    MULT,
-}
-
-public class Argument : MonoBehaviour
-{
-    public GameObject[] selectionRect;
-
-    public int value = 1;
-
-    public TextMeshProUGUI textMeshPro;
+    public TextMeshProUGUI descriptionText;
 
     public Card linkedCard;
 
-    public ArgType argType;
+    public ArgumentData currentArgumentData;
 
-    private void Start()
+    public int index;
+
+    public void SetArgInfo(ArgumentData argumentData)
     {
-        value = Random.Range(1, 3);
-        textMeshPro.text = "x" + value.ToString();
+        currentArgumentData = argumentData;
+        value = argumentData.argumentValue;
+        valueText.text = "x" + value.ToString();
+        nameText.text = argumentData.argumentName;
+        descriptionText.text = argumentData.argumentDescription;
     }
 }

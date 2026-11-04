@@ -47,6 +47,10 @@ public class BuyUI : MonoBehaviour
     public GameObject playerArgsPanel;
     public RectTransform scammingDropPanel;
 
+    public Image[] perksImages;
+
+    public Button startButton;
+
     private bool ending = false;
 
     private void Awake()
@@ -70,6 +74,8 @@ public class BuyUI : MonoBehaviour
 
         cards.Add(card);
         AddScore(card.value);
+
+        startButton.interactable = true;
     }
 
     public void RemoveCardToGoal(Card card)
@@ -79,10 +85,27 @@ public class BuyUI : MonoBehaviour
 
         cards.Remove(card);
         AddScore(-card.value);
+
+        if (cards.Count <= 0)
+        {
+            startButton.interactable = false;
+        }
     }
 
     public void StartScam()
     {
+        for (int p = 0; p < Player.instance.perks.Length; p++)
+        {
+            if (Player.instance.perks[p] != null)
+            {
+                perksImages[p].color = Color.red;
+            }
+            else
+            {
+                perksImages[p].color = Color.white;
+            }
+        }
+
         SwitchPhase(Phase.SCAMMING);
         int max = buyingCardsPanel.childCount;
         for (int i = 0; i < max; i++)
@@ -189,6 +212,7 @@ public class BuyUI : MonoBehaviour
         float upValue = 40;
 
         WaitForSeconds waitForSeconds = new WaitForSeconds(0.5f);
+        WaitForSeconds waitForSecondsBig = new WaitForSeconds(1);
         WaitForSeconds waitForSecondsSmall = new WaitForSeconds(0.3f);
 
         int max = scammingDropPanel.childCount;
@@ -238,6 +262,26 @@ public class BuyUI : MonoBehaviour
                         break;
                     }
                     index++;
+                }
+
+                yield return waitForSecondsBig;
+
+                for (int p = 0; p < Player.instance.perks.Length; p++)
+                {
+                    if (Player.instance.perks[p] != null)
+                    {
+                        perksImages[p].transform.localScale = Vector3.one;
+                        yield return waitForSecondsSmall;
+                        switch (Player.instance.perks[p].perkType)
+                        {
+                            case PerkType.POST_CARD:
+                                tempScore *= 2;
+                                c.scoreText.text = tempScore.ToString();
+                                break;
+                        }
+                        yield return waitForSecondsSmall;
+                        perksImages[p].transform.localScale = Vector3.one * 0.75f;
+                    }
                 }
 
                 yield return waitForSeconds;
@@ -324,6 +368,7 @@ public class BuyUI : MonoBehaviour
 
     private void Quit()
     {
+        ending = false;
         SwitchPhase(Phase.BUYER_SELECTION);
         gameObject.SetActive(false);
     }

@@ -106,6 +106,12 @@ public class BuyUI : MonoBehaviour
         }
     }
 
+    public void Leave()
+    {
+        Clean();
+        Quit();
+    }
+
     private void Update()
     {
         if (!scamming)
@@ -244,28 +250,13 @@ public class BuyUI : MonoBehaviour
 
         yield return new WaitForSeconds(1);
 
-        CleanAndQuit();
+        CheckScore();
+        Clean();
+        Quit();
     }
 
-    private void CleanAndQuit()
+    private void Clean()
     {
-        if (score >= goal)
-        {
-            int max = scammingBuyerCardsPanel.childCount;
-            for (int i = 0; i < max; i++)
-            {
-                Player.instance.cards.Add(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
-            }
-            Buyer b = Player.instance.currentInteraction.GetComponent<Buyer>();
-            for (int i = 0; i < max; i++)
-            {
-                b.cards.Remove(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
-            }
-        }
-        else
-        {
-        }
-
         for (int i = 0; i < buyerCardsPanel.childCount; i++)
         {
             Destroy(buyerCardsPanel.GetChild(i).gameObject);
@@ -309,7 +300,30 @@ public class BuyUI : MonoBehaviour
         {
             SwitchPlayerPanel();
         }
+    }
 
+    private void CheckScore()
+    {
+        if (score >= goal)
+        {
+            int max = scammingBuyerCardsPanel.childCount;
+            for (int i = 0; i < max; i++)
+            {
+                Player.instance.cards.Add(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
+            }
+            Buyer b = Player.instance.currentInteraction.GetComponent<Buyer>();
+            for (int i = 0; i < max; i++)
+            {
+                b.cards.Remove(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
+            }
+        }
+        else
+        {
+        }
+    }
+
+    private void Quit()
+    {
         SwitchPhase(Phase.BUYER_SELECTION);
         gameObject.SetActive(false);
     }

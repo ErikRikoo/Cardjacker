@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
@@ -20,6 +21,8 @@ public class Player : MonoBehaviour
     public List<RuntimeArgumentData> runtimeArguments = new List<RuntimeArgumentData>();
 
     public PerksData[] perks = new PerksData[5];
+
+    public TextMeshProUGUI moneyText;
 
     public int money = 0;
 
@@ -105,5 +108,11 @@ public class Player : MonoBehaviour
         RuntimeArgumentData runtimeArgumentData = runtimeArguments[index];
         runtimeArgumentData.used = true;
         runtimeArguments[index] = runtimeArgumentData;
+    }
+
+    public void AddMoney(int amount)
+    {
+        money += amount;
+        moneyText.text = "Money : " + money;
     }
 }

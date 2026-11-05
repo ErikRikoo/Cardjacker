@@ -12,4 +12,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2616c3d4b2ae3214fa2e7a6b0540cac4, type: 3}
   m_Name: ArgumentDataRessource
   m_EditorClassIdentifier: Assembly-CSharp::ArgumentDataRessource
-  cardDatas: []
+  argumentDatas:
+  - {fileID: 11400000, guid: 50ddb74679e6b9e42ab0692746b7c055, type: 2}

@@ -94,6 +94,7 @@ public class BuyUI : MonoBehaviour
 
     public void StartScam()
     {
+        startButton.interactable = false;
         for (int p = 0; p < Player.instance.perks.Length; p++)
         {
             if (Player.instance.perks[p] != null)
@@ -354,7 +355,9 @@ public class BuyUI : MonoBehaviour
             int max = scammingBuyerCardsPanel.childCount;
             for (int i = 0; i < max; i++)
             {
-                Player.instance.cards.Add(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
+                CardData cardData = scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData;
+                Player.instance.cards.Add(cardData);
+                CollectionManager.instance.ReceiveCard(cardData);
             }
             Buyer b = Player.instance.currentInteraction.GetComponent<Buyer>();
             for (int i = 0; i < max; i++)
@@ -376,7 +379,7 @@ public class BuyUI : MonoBehaviour
                 Player.instance.cards.Remove(scammingDropPanel.GetChild(i).GetComponent<Card>().currentCardData);
             }
 
-            Player.instance.money += score - goal;
+            Player.instance.AddMoney(score - goal);
         }
         else
         {

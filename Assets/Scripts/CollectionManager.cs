@@ -99,6 +99,9 @@ public class CollectionManager : MonoBehaviour
     public void OpenCollection()
     {
         collectionPanel.SetActive(true);
+
+        bookIndex = 0;
+
         FillCollection();
     }
 

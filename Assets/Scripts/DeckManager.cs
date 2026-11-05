@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 
 public class DeckManager : MonoBehaviour
 {
@@ -14,10 +15,24 @@ public class DeckManager : MonoBehaviour
     public int numberCardMax = 27;
     public Card CardPrefab;
 
+    public Button nextButton;
+    public Button prevButton;
+
     public void OpenBook()
     {
         gameObject.SetActive(true);
+
+        bookIndex = 0;
+
         FillCardBook();
+        if (Player.instance.cards.Count < ((bookIndex + 1) * numberCardMax) + 1)
+        {
+            nextButton.interactable = false;
+        }
+        else
+        {
+            nextButton.interactable = true;
+        }
     }
 
     public void FillCardBook()
@@ -43,5 +58,49 @@ public class DeckManager : MonoBehaviour
     public void CloseBook()
     {
         gameObject.SetActive(false);
+    }
+
+    public void NextPage()
+    {
+        if (Player.instance.cards.Count < ((bookIndex + 1) * numberCardMax) + 1)
+        {
+            return;
+        }
+
+        bookIndex++;
+        FillCardBook();
+
+        prevButton.interactable = true;
+
+        if (Player.instance.cards.Count < ((bookIndex + 1) * numberCardMax) + 1)
+        {
+            nextButton.interactable = false;
+        }
+        else
+        {
+            nextButton.interactable = true;
+        }
+    }
+
+    public void PrevPage()
+    {
+        if ((bookIndex - 1) < 0)
+        {
+            return;
+        }
+
+        bookIndex--;
+        FillCardBook();
+
+        nextButton.interactable = true;
+
+        if ((bookIndex - 1) < 0)
+        {
+            prevButton.interactable = false;
+        }
+        else
+        {
+            prevButton.interactable = true;
+        }
     }
 }

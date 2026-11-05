@@ -1,7 +1,7 @@
 ﻿<Solution>
   <Project Path="com.rikoo.framework.core.runtime.csproj" />
   <Project Path="com.rikoo.geometry-nodes.Editor.csproj" />
+  <Project Path="Assembly-CSharp.csproj" />
   <Project Path="com.rikoo.geometry-nodes.Runtime.csproj" />
   <Project Path="com.rikoo.framework.core.editor.csproj" />
-  <Project Path="Assembly-CSharp.csproj" />
 </Solution>

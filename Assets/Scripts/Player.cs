@@ -19,7 +19,9 @@ public class Player : MonoBehaviour
     private List<ArgumentData> arguments = new List<ArgumentData>();
     public List<RuntimeArgumentData> runtimeArguments = new List<RuntimeArgumentData>();
 
-    public PerksData[] perks = new PerksData[5]; 
+    public PerksData[] perks = new PerksData[5];
+
+    public int money = 0;
 
     private void Awake()
     {

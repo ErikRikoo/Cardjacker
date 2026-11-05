@@ -18,6 +18,7 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
     public CardData currentCardData;
 
     public TextMeshProUGUI scoreText;
+    public GameObject startingState;
 
     public Image background;
 
@@ -61,7 +62,9 @@ public class Card : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         valueText.text = "$" + value.ToString();
         nameText.text = cardData.cardName;
 
-        switch(cardData.cardType)
+        startingState.SetActive(false);
+
+        switch (cardData.cardType)
         {
             case CardType.COMMON:
                 background.color = commonColor;

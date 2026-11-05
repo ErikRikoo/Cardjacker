@@ -229,6 +229,7 @@ public class BuyUI : MonoBehaviour
                 int tempScore = c.value;
                 c.scoreText.text = tempScore.ToString();
                 int index = i + 1;
+                int argsUsed = 0;
 
                 while (index < max)
                 {
@@ -288,7 +289,7 @@ public class BuyUI : MonoBehaviour
 
                 score += tempScore;
                 scoreText.text = "Score : " + score;
-                i = index;
+                i += argsUsed;
             }
         }
 
@@ -360,6 +361,22 @@ public class BuyUI : MonoBehaviour
             {
                 b.cards.Remove(scammingBuyerCardsPanel.GetChild(i).GetComponent<Card>().currentCardData);
             }
+
+            max = scammingDropPanel.childCount;
+            for (int i = 0; i < max; i++)
+            {
+                Card c = scammingDropPanel.GetChild(i).GetComponent<Card>();
+                if (!c.isArgumentCard)
+                { 
+                    b.cards.Add(scammingDropPanel.GetChild(i).GetComponent<Card>().currentCardData);
+                }
+            }
+            for (int i = 0; i < max; i++)
+            {
+                Player.instance.cards.Remove(scammingDropPanel.GetChild(i).GetComponent<Card>().currentCardData);
+            }
+
+            Player.instance.money += score - goal;
         }
         else
         {
